@@ -1,0 +1,30 @@
+FROM python:3.13.5-alpine3.22
+
+# Environment variables to improve Python behavior
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PATH="/app/venv/bin:$PATH"
+
+WORKDIR /app
+
+# Install essential build tools and libraries
+RUN apk add --no-cache build-base libffi-dev
+
+# Copy requirements and install dependencies in a virtual environment
+COPY requirements.txt /app/
+RUN python -m venv venv && \
+    venv/bin/pip install --upgrade pip && \
+    venv/bin/pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code
+COPY . /app/
+
+# Copy entrypoint.sh into the container
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
+# Set the entrypoint to the entrypoint script
+ENTRYPOINT ["/app/entrypoint.sh"]
+
+# Default command to run the application
+CMD ["uvicorn", "website.asgi:application", "--host", "0.0.0.0", "--port", "8000"]

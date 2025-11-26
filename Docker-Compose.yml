@@ -1,0 +1,15 @@
+services:
+  web:
+    image: demo-api:latest
+    ports:
+      - "8200:8000"
+    volumes:
+      - db_data:/app/db
+    env_file:
+      - .env
+    container_name: demo-api
+    restart: unless-stopped
+
+volumes:
+  db_data:
+    driver: local
