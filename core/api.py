@@ -80,6 +80,8 @@ def get_task(request, task_id: int):
 def update_task(request, task_id: int, payload: TaskUpdateSchema):
     task = get_object_or_404(Tasks, id=task_id,session_id=check_or_create_session_id(request))
     if payload.name is not None:
+        if payload.name.strip() == "":
+            return 400, {"detail": "Task name cannot be empty"}
         task.name = payload.name
     if payload.description is not None:
         task.description = payload.description
