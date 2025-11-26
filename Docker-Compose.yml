@@ -1,13 +1,13 @@
 services:
   web:
-    image: demo-api:latest
+    image: dag-task:latest
     ports:
       - "8200:8000"
     volumes:
       - db_data:/app/db
     env_file:
       - .env
-    container_name: demo-api
+    container_name: dag-task
     restart: unless-stopped
 
 volumes:

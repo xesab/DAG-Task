@@ -27,4 +27,4 @@ RUN chmod +x /app/entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
 
 # Default command to run the application
-CMD ["uvicorn", "website.asgi:application", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "demoapi.asgi:application", "--host", "0.0.0.0", "--port", "8000"]
